@@ -1,0 +1,19 @@
+{
+  "name": "binanceWebSocets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "binance": "^1.3.5"
+  },
+  "devDependencies": {
+    "electron": "^11.1.0"
+  }
+}

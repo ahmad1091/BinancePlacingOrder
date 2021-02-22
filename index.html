@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Binance OCO Order </h1>
+    <div>
+        <form id="myForm">
+
+            <input type="text" id="akey" name="akey" placeholder="Enter your api key" required>
+            <label for="akey">API Key</label><br>
+
+            <input type="text" id="skey" name="skey" placeholder="Enter your secret key" required>
+            <label for="skey">Secret key</label><br>
+
+            <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" step="any" required>
+            <label for="quantity">Quantity</label><br>
+
+            <input type="number" id="profit" name="profit" placeholder="Enter Profit price" step="any" required>
+            <label for="fname">Take profit</label><br>
+
+            <input type="number" id="stop" name="stop" placeholder="Enter stop price" step="any" required>
+            <label for="fname">Stop loss</label><br>
+
+            <select id="symbol" name="symbol">
+            </select>
+            <label for="symbol">Symbol</label>
+
+            <select id="type" name="type">
+                <option value="1">TAKE_PROFIT</option>
+                <option value="0">STOP_LOSS</option>
+            </select>
+            <label for="symbol">type</label>
+
+            <div class="toggle">
+                Disable
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <input id="btn" type="submit" value="Submit">
+            <button id="saveBtn" type="button" class="btn btn-danger">Save values</button>
+            <button id="loadBtn" type="button" class="btn btn-success">load last values</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.12.5/sweetalert2.all.js"
+        integrity="sha512-26A2cH66WptRa2lt45ZQJKNJelh3uoikjpPMGd0xgmI9IFxCCSVnTREFWWjCYGK2/15wM+23Zwl/8ILJu1jXeg=="
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="utilities/binance.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="utilities/request.js"></script>
+    <script type="text/javascript" src="utilities/symbols.js"></script>
+    <script type="text/javascript" src="utilities/toggle.js"></script>
+    <script type="text/javascript" src="utilities/localStorage.js"></script>
+
+</body>
+
+</html>
