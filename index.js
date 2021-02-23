@@ -25,7 +25,6 @@ submitBtn.addEventListener("click", () => {
     obj[item.name] = item.value;
   }
   if (Object.keys(obj).length >= 8) {
-    console.log(obj);
     alert("placing order");
     palceInitialOrder(obj);
   }
@@ -49,7 +48,9 @@ document.querySelector("input[type=checkbox]").onchange = (e) => {
       obj[item.name] = item.value;
     }
     palceInitialOrder(obj);
-    statusChecker = setInterval(checkSatatus(obj, socketData), 1 * 1000);
+    statusChecker = setInterval(() => {
+      checkSatatus(obj, socketData);
+    }, 1 * 1000);
   } else {
     clearInterval(statusChecker);
     enableInputs();
