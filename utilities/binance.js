@@ -60,7 +60,6 @@ const normalizePriceAndQuantity = (exchangeInfo, orderData, type) => {
 };
 
 const palceInitialOrder = (orderData) => {
-  console.log(orderData.akey, orderData.skey);
   var binanceRest = binanceRestGenerator(orderData.akey, orderData.skey);
   if (orderData.type == 1) {
     // in case of take profit
@@ -68,6 +67,7 @@ const palceInitialOrder = (orderData) => {
       .exchangeInfo()
       .then((res) => {
         var normalizedNumbers = normalizePriceAndQuantity(res, orderData, "tp");
+
         return binanceRest
           .newOrder({
             symbol: orderData.symbol,
@@ -187,3 +187,36 @@ const checkSatatus = (orderData, socketData) => {
     }
   }
 };
+
+// const newFutureOrder = (orderData) => {
+//   const { akey, skey, symbol, side, number, stop, profit, type } = orderData;
+//   const timestamp = Date.now();
+//   const baseUrl = "https://fapi.binance.com";
+//   const endPoint = "/fapi/v1/order";
+//   let price, otype;
+
+//   if (type == 1) {
+//     price = profit;
+//     otype = "LIMIT";
+//   } else if (type == 0) {
+//     price = stop;
+//     otype = "STOP_LOSS_LIMIT";
+//   }
+//   //var dataQueryString = "symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=0.003&price=6200&recvWindow=20000&timestamp=" + Date.now();
+//   const queryString = `symbol=${symbol}&side=${side}&price=${price}&type=${otype}&timestamp=${timestamp}`;
+
+//   const sign = crypto
+//     .createHmac("sha256", skey)
+//     .update(queryString)
+//     .digest("hex");
+//   const url = baseUrl + endPoint + "?" + queryString + "&signature=" + sign;
+//   console.log(".......", orderData);
+//   // axios
+//   //   .post(url, { headers: { "X-MBX-APIKEY": akey } })
+//   //   .then((res) => {
+//   //     console.log(res);
+//   //   })
+//   //   .catch((err) => {
+//   //     console.error(err);
+//   //   });
+// };
