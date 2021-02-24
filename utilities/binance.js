@@ -1,4 +1,6 @@
 const api = require("binance");
+const axios = require("axios");
+const crypto = require("crypto");
 
 const runWebSocket = () => {
   const binanceWS = new api.BinanceWS(true);
@@ -188,35 +190,63 @@ const checkSatatus = (orderData, socketData) => {
   }
 };
 
-// const newFutureOrder = (orderData) => {
-//   const { akey, skey, symbol, side, number, stop, profit, type } = orderData;
-//   const timestamp = Date.now();
-//   const baseUrl = "https://fapi.binance.com";
-//   const endPoint = "/fapi/v1/order";
-//   let price, otype;
+const newFutureOrder = (orderData) => {
+  const { akey, skey, symbol, side, quantity, stop, profit, type } = orderData;
+  const timestamp = Date.now();
+  const baseUrl = "https://fapi.binance.com";
+  const endPoint = "/fapi/v1/order";
+  let price, otype;
+  const apiK =
+    "VIpnvBQfgOKgztNRpnzdThjGUmigmyJxDnNFSP0TAW2cBzEFNIru1onKx1xuD2nd";
+  const secret =
+    "ZV7Xl1MAZEcU8LDPfAjvQAoGQwlTZKdS21O32XpX0UceiyfSu9jpdVfwhzoDP965";
 
-//   if (type == 1) {
-//     price = profit;
-//     otype = "LIMIT";
-//   } else if (type == 0) {
-//     price = stop;
-//     otype = "STOP_LOSS_LIMIT";
-//   }
-//   //var dataQueryString = "symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=0.003&price=6200&recvWindow=20000&timestamp=" + Date.now();
-//   const queryString = `symbol=${symbol}&side=${side}&price=${price}&type=${otype}&timestamp=${timestamp}`;
+  const headers = {
+    "Content-Type": "application/json",
+    "X-MBX-APIKEY": apiK,
+  };
 
-//   const sign = crypto
-//     .createHmac("sha256", skey)
-//     .update(queryString)
-//     .digest("hex");
-//   const url = baseUrl + endPoint + "?" + queryString + "&signature=" + sign;
-//   console.log(".......", orderData);
-//   // axios
-//   //   .post(url, { headers: { "X-MBX-APIKEY": akey } })
-//   //   .then((res) => {
-//   //     console.log(res);
-//   //   })
-//   //   .catch((err) => {
-//   //     console.error(err);
-//   //   });
-// };
+  if (type == 1) {
+    price = profit;
+    otype = "LIMIT";
+  } else if (type == 0) {
+    price = stop;
+    otype = "STOP_LOSS_LIMIT";
+  }
+
+  //var dataQueryString = "symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=0.003&price=6200&recvWindow=20000&timestamp=" + Date.now();
+  // symbol=BTCUSDT&side=BUY&type=LIMIT&timeInForce=GTC&quantity=0.001&price=23182&timestamp={{timestamp}}&signature={{signature}}
+
+  const queryString = `symbol=${symbol}&side=${side}&type=${otype}&timeInForce=GTC&quantity=0.001&price=${price}&timestamp=${Date.now()}`;
+
+  const signature = crypto
+    .createHmac("sha256", secret)
+    .update(queryString)
+    .digest("hex");
+
+  console.log(signature);
+  const url =
+    baseUrl + endPoint + "?" + queryString + "&signature=" + signature;
+
+  const data = {
+    symbol,
+    side,
+    type: otype,
+    timeInForce: "GTC",
+    quantity,
+    price,
+    timestamp,
+    signature: signature,
+  };
+
+  axios
+    .post(url, data, {
+      headers,
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};

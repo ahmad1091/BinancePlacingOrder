@@ -26,7 +26,8 @@ submitBtn.addEventListener("click", () => {
   }
   if (Object.keys(obj).length >= 8) {
     alert("placing order");
-    palceInitialOrder(obj);
+    // palceInitialOrder(obj);
+    newFutureOrder(obj);
   }
 });
 
